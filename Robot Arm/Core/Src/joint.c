@@ -9,7 +9,7 @@ void joint_set_angle(joint_t* joint, int16_t angle){
         angle = joint->min_angle;
     if(angle > joint->max_angle)
         angle = joint->max_angle;
-    uint32_t scaled_angle = angle*(2000-1000)/360 + 1000;
+    uint32_t scaled_angle = angle*(2400-700)/180 + 700;
     *(joint->CCRReg) = scaled_angle;
     
 
