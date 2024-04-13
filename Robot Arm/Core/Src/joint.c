@@ -2,9 +2,10 @@
 
 void joint_init(joint_t* joint){
   HAL_TIM_PWM_Start(joint->htimer, joint->channel);
+  joint_set_angle(joint,0);
 }
 
-void joint_set_angle(joint_t* joint, int16_t angle){
+void joint_set_angle(joint_t* joint, float angle){
     if(angle < joint->min_angle)
         angle = joint->min_angle;
     if(angle > joint->max_angle)

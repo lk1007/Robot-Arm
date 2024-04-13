@@ -1,13 +1,13 @@
 
 #include "arm.h"
 
-void arm_set_angles(arm_t *arm, int16_t base_angle, int16_t shoulder_angle, int16_t elbow_angle, int16_t wrist_angle, int16_t hand_angle)
+void arm_set_angles(arm_t *arm, float* angles)
 {
-    joint_set_angle(arm->base, base_angle);
-    joint_set_angle(arm->shoulder, shoulder_angle);
-    joint_set_angle(arm->elbow, elbow_angle);
-    joint_set_angle(arm->wrist, wrist_angle);
-    joint_set_angle(arm->hand, hand_angle);
+    joint_set_angle(arm->base, angles[0]);
+    joint_set_angle(arm->shoulder, angles[1]);
+    joint_set_angle(arm->elbow, angles[2]);
+    joint_set_angle(arm->wrist, angles[3]);
+    joint_set_angle(arm->hand, angles[4]);
 }
 
 void arm_init(arm_t *arm)

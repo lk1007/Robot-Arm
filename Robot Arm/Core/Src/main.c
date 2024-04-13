@@ -24,6 +24,8 @@
 /* USER CODE BEGIN Includes */
 #include "joint.h"
 #include "arm.h"
+#include <string.h>
+#include "usbd_cdc_if.h"
 
 /* USER CODE END Includes */
 
@@ -44,9 +46,11 @@
 
 /* Private variables ---------------------------------------------------------*/
 TIM_HandleTypeDef htim3;
-TIM_HandleTypeDef htim4;
+TIM_HandleTypeDef htim5;
 
 /* USER CODE BEGIN PV */
+
+float USB_RX_Buf[5] = {90,90,90,90,90};
 
 /* USER CODE END PV */
 
@@ -54,8 +58,25 @@ TIM_HandleTypeDef htim4;
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 static void MX_TIM3_Init(void);
-static void MX_TIM4_Init(void);
+static void MX_TIM5_Init(void);
 /* USER CODE BEGIN PFP */
+
+  float byteArrayToFloat(const uint8_t *byteArray) {
+    // Assuming the byteArray is in little-endian format
+    uint32_t value;
+    memcpy(&value, byteArray, sizeof(uint32_t));
+
+    // Convert the raw integer value to float
+    float result;
+    memcpy(&result, &value, sizeof(float));
+
+    return result;
+  }
+  void receiveAnglesUSB(uint8_t* buf){
+    for(int i = 0; i < 5; i++){
+      USB_RX_Buf[i] = byteArrayToFloat(buf + sizeof(float)*i);
+    }
+  } 
 
 /* USER CODE END PFP */
 
@@ -93,14 +114,14 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_TIM3_Init();
-  MX_TIM4_Init();
   MX_USB_DEVICE_Init();
+  MX_TIM5_Init();
   /* USER CODE BEGIN 2 */
   joint_t wrist = {.htimer = &htim3, .CCRReg = &(TIM3->CCR2), .channel = TIM_CHANNEL_2, .min_angle = 0, .max_angle = 100};
-  joint_t hand = {.htimer = &htim3, .CCRReg = &(TIM3->CCR1), .channel = TIM_CHANNEL_1, .min_angle = 0, .max_angle = 100};
-  joint_t elbow = {.htimer = &htim3, .CCRReg = &(TIM3->CCR4), .channel = TIM_CHANNEL_4, .min_angle = 20, .max_angle = 180};
-  joint_t shoulder = {.htimer = &htim3, .CCRReg = &(TIM3->CCR3), .channel = TIM_CHANNEL_3, .min_angle = 0, .max_angle = 140};
-  joint_t base = {.htimer = &htim4, .CCRReg = &(TIM4->CCR1), .channel = TIM_CHANNEL_1, .min_angle = 0, .max_angle = 180};
+  joint_t elbow = {.htimer = &htim5, .CCRReg = &(TIM5->CCR2), .channel = TIM_CHANNEL_2, .min_angle = 20, .max_angle = 100};
+  joint_t base = {.htimer = &htim3, .CCRReg = &(TIM3->CCR4), .channel = TIM_CHANNEL_4, .min_angle = 20, .max_angle = 180};
+  joint_t hand = {.htimer = &htim3, .CCRReg = &(TIM3->CCR3), .channel = TIM_CHANNEL_3, .min_angle = 0, .max_angle = 140};
+  joint_t shoulder = {.htimer = &htim5, .CCRReg = &(TIM5->CCR1), .channel = TIM_CHANNEL_1, .min_angle = 20, .max_angle = 120};
 
   arm_t arm = 
   {
@@ -111,6 +132,8 @@ int main(void)
     .hand = &hand,
   };
   arm_init(&arm);
+  joint_set_angle(arm.shoulder, 70);
+  //USBD_CDC_init();
 
   /* USER CODE END 2 */
 
@@ -118,17 +141,11 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-    arm_set_angles(&arm,90,80,0,180,180);
-    //for (int i = 90; i < 180; i += 2)
-    //{
-    //  arm_set_angles(&arm,i,i,i,i,1);
-    //  HAL_Delay(100);
-    //}
-    //for (int i = 180; i >= 90; i -= 2)
-    //{
-    //  arm_set_angles(&arm,i,i,i,i,1);
-    //  HAL_Delay(100);
-    //}
+    //joint_set_angle(arm.elbow, 20);
+    arm_set_angles(&arm,USB_RX_Buf);
+    //HAL_Delay(1000);
+    //joint_set_angle(arm.elbow, 120);
+    HAL_Delay(1);
     
     /* USER CODE END WHILE */
 
@@ -246,36 +263,36 @@ static void MX_TIM3_Init(void)
 }
 
 /**
-  * @brief TIM4 Initialization Function
+  * @brief TIM5 Initialization Function
   * @param None
   * @retval None
   */
-static void MX_TIM4_Init(void)
+static void MX_TIM5_Init(void)
 {
 
-  /* USER CODE BEGIN TIM4_Init 0 */
+  /* USER CODE BEGIN TIM5_Init 0 */
 
-  /* USER CODE END TIM4_Init 0 */
+  /* USER CODE END TIM5_Init 0 */
 
   TIM_MasterConfigTypeDef sMasterConfig = {0};
   TIM_OC_InitTypeDef sConfigOC = {0};
 
-  /* USER CODE BEGIN TIM4_Init 1 */
+  /* USER CODE BEGIN TIM5_Init 1 */
 
-  /* USER CODE END TIM4_Init 1 */
-  htim4.Instance = TIM4;
-  htim4.Init.Prescaler = 16;
-  htim4.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim4.Init.Period = 20000;
-  htim4.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
-  htim4.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
-  if (HAL_TIM_PWM_Init(&htim4) != HAL_OK)
+  /* USER CODE END TIM5_Init 1 */
+  htim5.Instance = TIM5;
+  htim5.Init.Prescaler = 16;
+  htim5.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim5.Init.Period = 20000;
+  htim5.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  htim5.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+  if (HAL_TIM_PWM_Init(&htim5) != HAL_OK)
   {
     Error_Handler();
   }
   sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
   sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
-  if (HAL_TIMEx_MasterConfigSynchronization(&htim4, &sMasterConfig) != HAL_OK)
+  if (HAL_TIMEx_MasterConfigSynchronization(&htim5, &sMasterConfig) != HAL_OK)
   {
     Error_Handler();
   }
@@ -283,14 +300,18 @@ static void MX_TIM4_Init(void)
   sConfigOC.Pulse = 0;
   sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
   sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
-  if (HAL_TIM_PWM_ConfigChannel(&htim4, &sConfigOC, TIM_CHANNEL_1) != HAL_OK)
+  if (HAL_TIM_PWM_ConfigChannel(&htim5, &sConfigOC, TIM_CHANNEL_1) != HAL_OK)
   {
     Error_Handler();
   }
-  /* USER CODE BEGIN TIM4_Init 2 */
+  if (HAL_TIM_PWM_ConfigChannel(&htim5, &sConfigOC, TIM_CHANNEL_2) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN TIM5_Init 2 */
 
-  /* USER CODE END TIM4_Init 2 */
-  HAL_TIM_MspPostInit(&htim4);
+  /* USER CODE END TIM5_Init 2 */
+  HAL_TIM_MspPostInit(&htim5);
 
 }
 

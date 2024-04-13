@@ -12,7 +12,7 @@ typedef struct{
     joint_t* hand;
 }arm_t;
 
-void arm_set_angles(arm_t* arm, int16_t base_angle, int16_t shoulder_angle,int16_t elbow_angle,int16_t wrist_angle,int16_t hand_angle);
+void arm_set_angles(arm_t *arm, float* angles);
 
 void arm_init(arm_t* arm);
 

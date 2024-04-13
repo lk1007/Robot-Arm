@@ -13,7 +13,7 @@ typedef struct{
 
 void joint_init(joint_t* joint);
 
-void joint_set_angle(joint_t* joint, int16_t angle);
+void joint_set_angle(joint_t* joint, float angle);
 
 void write_arm_angles();
 
