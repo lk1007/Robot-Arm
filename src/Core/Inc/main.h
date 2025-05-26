@@ -59,7 +59,9 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
-#define Elbow_Pin GPIO_PIN_6
+#define Shoulder_Pin GPIO_PIN_0
+#define Shoulder_GPIO_Port GPIOA
+#define Elbow_Pin GPIO_PIN_1
 #define Elbow_GPIO_Port GPIOA
 #define Forearm_Pin GPIO_PIN_7
 #define Forearm_GPIO_Port GPIOA
