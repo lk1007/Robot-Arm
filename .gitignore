@@ -2,4 +2,6 @@
 *.stl
 .vscode
 venv
-
+build
+install
+log
