@@ -1,4 +1,5 @@
 *.FCBak
 *.stl
 .vscode
+venv
 

@@ -26,6 +26,7 @@
 #include "arm.h"
 #include <string.h>
 #include "usbd_cdc_if.h"
+#include <stdbool.h>
 
 /* USER CODE END Includes */
 
@@ -121,11 +122,11 @@ int main(void)
   MX_USB_DEVICE_Init();
   MX_TIM5_Init();
   /* USER CODE BEGIN 2 */
-  joint_t wrist = {.htimer = &htim3, .CCRReg = &(TIM3->CCR2), .channel = TIM_CHANNEL_2, .min_angle = 0, .max_angle = 180};
-  joint_t elbow = {.htimer = &htim5, .CCRReg = &(TIM5->CCR2), .channel = TIM_CHANNEL_2, .min_angle = 20, .max_angle = 180};
-  joint_t base = {.htimer = &htim3, .CCRReg = &(TIM3->CCR4), .channel = TIM_CHANNEL_4, .min_angle = 20, .max_angle = 180};
-  joint_t hand = {.htimer = &htim3, .CCRReg = &(TIM3->CCR3), .channel = TIM_CHANNEL_3, .min_angle = 0, .max_angle = 180};
-  joint_t shoulder = {.htimer = &htim5, .CCRReg = &(TIM5->CCR1), .channel = TIM_CHANNEL_1, .min_angle = 20, .max_angle = 180};
+  joint_t wrist = {.htimer = &htim3, .CCRReg = &(TIM3->CCR2), .channel = TIM_CHANNEL_2, .min_angle = 60, .max_angle = 120};
+  joint_t elbow = {.htimer = &htim5, .CCRReg = &(TIM5->CCR2), .channel = TIM_CHANNEL_2, .min_angle = 0, .max_angle = 80};
+  joint_t base = {.htimer = &htim3, .CCRReg = &(TIM3->CCR4), .channel = TIM_CHANNEL_4, .min_angle = 20, .max_angle = 170};
+  joint_t hand = {.htimer = &htim3, .CCRReg = &(TIM3->CCR3), .channel = TIM_CHANNEL_3, .min_angle = 0, .max_angle = 25};
+  joint_t shoulder = {.htimer = &htim5, .CCRReg = &(TIM5->CCR1), .channel = TIM_CHANNEL_1, .min_angle = 40, .max_angle = 100};
 
   arm_t arm =
       {
@@ -136,20 +137,39 @@ int main(void)
           .hand = &hand,
       };
   arm_init(&arm);
-  joint_set_angle(arm.shoulder, 70);
+  joint_set_angle(arm.base, 30);
+  joint_set_angle(arm.shoulder, 50);
+  joint_set_angle(arm.elbow, 0);
+  joint_set_angle(arm.wrist, 30);
+  joint_set_angle(arm.hand, 10);
   // USBD_CDC_init();
 
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+  bool up = true;
+  int angle = 30;
   while (1)
   {
     // joint_set_angle(arm.elbow, 20);
-    arm_set_angles(&arm, USB_RX_Buf);
+    if(up){
+      angle++;
+      if(angle >= 180){
+        up = false;
+      }
+    }
+    else{
+      angle--;
+      if(angle <= 0){
+        up = true;
+      }
+    }
+    joint_set_angle(arm.base,angle);
+    //arm_set_angles(&arm, USB_RX_Buf);
     // HAL_Delay(1000);
     // joint_set_angle(arm.elbow, 120);
-    HAL_Delay(1);
+    HAL_Delay(30);
 
     /* USER CODE END WHILE */
 

@@ -90,7 +90,7 @@ class RobotArm:
             print(e)
 
 
-arm = RobotArm(port="COM5", min_angles=min_angles, max_angles=max_angles)
+arm = RobotArm(port="/dev/ttyACM0", min_angles=min_angles, max_angles=max_angles)
 
 last = None
 
