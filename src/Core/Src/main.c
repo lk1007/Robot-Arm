@@ -51,7 +51,7 @@ TIM_HandleTypeDef htim5;
 
 /* USER CODE BEGIN PV */
 
-float USB_RX_Buf[5] = {90, 90, 90, 90, 90};
+float USB_RX_Buf[5] = {0, 0, 0, 0, 0};
 
 /* USER CODE END PV */
 
@@ -137,39 +137,40 @@ int main(void)
           .hand = &hand,
       };
   arm_init(&arm);
-  joint_set_angle(arm.base, 30);
-  joint_set_angle(arm.shoulder, 50);
+  joint_set_angle(arm.base, 0);
+  joint_set_angle(arm.shoulder, 0);
   joint_set_angle(arm.elbow, 0);
-  joint_set_angle(arm.wrist, 30);
-  joint_set_angle(arm.hand, 10);
+  joint_set_angle(arm.wrist, 0);
+  joint_set_angle(arm.hand, 0);
   // USBD_CDC_init();
 
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  bool up = true;
-  int angle = 30;
+  //bool up = true;
+  //int angle = 30;
   while (1)
   {
-    // joint_set_angle(arm.elbow, 20);
-    if(up){
-      angle++;
-      if(angle >= 180){
-        up = false;
-      }
-    }
-    else{
-      angle--;
-      if(angle <= 0){
-        up = true;
-      }
-    }
-    joint_set_angle(arm.base,angle);
-    //arm_set_angles(&arm, USB_RX_Buf);
-    // HAL_Delay(1000);
-    // joint_set_angle(arm.elbow, 120);
-    HAL_Delay(30);
+  //  // joint_set_angle(arm.elbow, 20);
+  //  if(up){
+  //    angle++;
+  //    if(angle >= 180){
+  //      up = false;
+  //    }
+  //  }
+  //  else{
+  //    angle--;
+  //    if(angle <= 0){
+  //      up = true;
+  //    }
+  //  }
+  arm_set_angles(&arm, USB_RX_Buf, 100);
+  HAL_Delay(1);
+  //arm_set_angles(&arm, USB_RX_Buf, 1);
+  //HAL_Delay(1);
+  //  // joint_set_angle(arm.elbow, 120);
+  //  HAL_Delay(30);
 
     /* USER CODE END WHILE */
 

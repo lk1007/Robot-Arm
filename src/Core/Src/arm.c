@@ -1,13 +1,19 @@
 
 #include "arm.h"
+#include <stdbool.h>
 
-void arm_set_angles(arm_t *arm, float* angles)
+void arm_set_angles(arm_t *arm, float* angles, int delay_ms)
 {
-    joint_set_angle(arm->base, angles[0]);
-    joint_set_angle(arm->shoulder, angles[1]);
-    joint_set_angle(arm->elbow, angles[2]);
-    joint_set_angle(arm->wrist, angles[3]);
-    joint_set_angle(arm->hand, angles[4]);
+    bool done = false;
+    while(!done){
+        done |= joint_step_angle(arm->base, angles[0]);
+        done |= joint_step_angle(arm->shoulder, angles[1]);
+        done |= joint_step_angle(arm->elbow, angles[2]);
+        done |= joint_step_angle(arm->wrist, angles[3]);
+        done |= joint_step_angle(arm->hand, angles[4]);
+        if(!done)
+            HAL_Delay(delay_ms);
+    }
 }
 
 void arm_init(arm_t *arm)

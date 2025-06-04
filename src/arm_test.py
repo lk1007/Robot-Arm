@@ -67,17 +67,17 @@ class RobotArm:
     # send the angles over serial to robot stm32
     def send_angles(self, base=None, shoulder=None, elbow=None, wrist=None, hand=None):
         try:
-            if (base):
+            if (base != None):
                 self.curr_angles.base = base
-            if (shoulder):
+            if (shoulder != None):
                 self.curr_angles.shoulder = shoulder
-            if (elbow):
+            if (elbow != None):
                 self.curr_angles.elbow = elbow
-            if (wrist):
+            if (wrist != None):
                 self.curr_angles.wrist = wrist
-            if (hand):
+            if (hand != None):
                 self.curr_angles.hand = hand
-            self.curr_angles = self.check_angles(self.curr_angles)
+            #self.curr_angles = self.check_angles(self.curr_angles)
             angles = list(self.curr_angles)
             angles = [int(i) for i in angles]
             for angle in angles:
@@ -138,14 +138,18 @@ start_wrist = None
 
 
 def on_scroll(x, y, dx, dy):
-    print(arm.curr_angles.elbow)
     arm.send_angles(elbow=arm.curr_angles.elbow + dy*5)
     # print('Mouse scrolled at ({0}, {1}) ({2}, {3})'.format(x, y, dx, dy))
 
 
+
+enabled = True;
 def keyboard_thread_func():
+    global enabled
     try:
         while (1):
+            if(not enabled):
+                continue
             if (keyboard.is_pressed('z')):
                 if (not arm.movable):
                     arm.movable = True
@@ -162,15 +166,19 @@ def keyboard_thread_func():
 
 keyboard_thread = threading.Thread(target=keyboard_thread_func)
 # Collect events until released
-with Listener(on_move=on_move, on_click=on_click, on_scroll=on_scroll) as listener:
-    try:
-        arm.movable = False
-        keyboard_thread.start()
-
-        keyboard_thread.join()
-        listener.join()
-    except KeyboardInterrupt:
-        pass
+#with Listener(on_move=on_move, on_click=on_click, on_scroll=on_scroll) as listener:
+#    try:
+#        arm.movable = False
+#        keyboard_thread.start()
+#
+#        keyboard_thread.join()
+#        listener.join()
+#    except KeyboardInterrupt:
+#        print("Done")
+#        enabled = False
+#        arm.movable = True
+#        arm.send_angles(base=0, shoulder=0, elbow=0, wrist=0, hand=0)
+#        time.sleep(2)
 
 
 def example_1():
@@ -193,3 +201,6 @@ def example_2():
     time.sleep(1)
     arm.send_angles(hand=90)
     time.sleep(1)
+
+#arm.movable = True
+#example_1()
