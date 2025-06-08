@@ -28,8 +28,8 @@ class angles_t:
         return "base: " + str(self.base) + "\nshoulder: " + str(self.shoulder) + "\nelbow: " + str(self.elbow) + "\nwrist: " + str(self.wrist) + "\nhand: " + str(self.hand)
 
 
-min_angles = angles_t(base=20, shoulder=50, elbow=20, wrist=20, hand=0)
-max_angles = angles_t(base=180, shoulder=120, elbow=180, wrist=180, hand=90)
+min_angles = angles_t(base=20, shoulder=40, elbow=0, wrist=60, hand=0)
+max_angles = angles_t(base=170, shoulder=100, elbow=80, wrist=120, hand=50)
 
 start_angles = angles_t(base=50, shoulder=70, elbow=50, wrist=50, hand=90)
 
@@ -77,7 +77,7 @@ class RobotArm:
                 self.curr_angles.wrist = wrist
             if (hand != None):
                 self.curr_angles.hand = hand
-            #self.curr_angles = self.check_angles(self.curr_angles)
+            self.curr_angles = self.check_angles(self.curr_angles)
             angles = list(self.curr_angles)
             angles = [int(i) for i in angles]
             for angle in angles:
@@ -143,7 +143,7 @@ def on_scroll(x, y, dx, dy):
 
 
 
-enabled = True;
+enabled = True
 def keyboard_thread_func():
     global enabled
     try:
@@ -183,11 +183,33 @@ keyboard_thread = threading.Thread(target=keyboard_thread_func)
 
 def example_1():
     arm.send_angles(base=80, shoulder=80, elbow=100, wrist=10, hand=10)
+    time.sleep(2)
+    arm.send_angles(base=60, shoulder=60, elbow=70, wrist=50, hand=25)
+    time.sleep(2)
+    arm.send_angles(base=80, shoulder=80, elbow=100, wrist=10, hand=15)
+    time.sleep(2)
+    arm.send_angles(base=0, shoulder=0, elbow=0, wrist=0, hand=0)
+
+def example_3():
+    arm.send_angles(base=30, shoulder=0, elbow=0, wrist=0, hand=0)
     time.sleep(1)
-    arm.send_angles(base=60, shoulder=60, elbow=70, wrist=50, hand=10)
+    arm.send_angles(base=0, shoulder=0, elbow=0, wrist=0, hand=0)
     time.sleep(1)
-    arm.send_angles(base=80, shoulder=80, elbow=100, wrist=10, hand=10)
+    arm.send_angles(base=0, shoulder=90, elbow=0, wrist=0, hand=0)
     time.sleep(1)
+    arm.send_angles(base=0, shoulder=0, elbow=0, wrist=0, hand=0)
+    time.sleep(1)
+    arm.send_angles(base=0, shoulder=0, elbow=30, wrist=0, hand=0)
+    time.sleep(1)
+    arm.send_angles(base=0, shoulder=0, elbow=0, wrist=0, hand=0)
+    time.sleep(1)
+    arm.send_angles(base=0, shoulder=0, elbow=0, wrist=90, hand=0)
+    time.sleep(1)
+    arm.send_angles(base=0, shoulder=0, elbow=0, wrist=0, hand=0)
+    time.sleep(1)
+    arm.send_angles(base=0, shoulder=0, elbow=0, wrist=0, hand=30)
+    time.sleep(1)
+    arm.send_angles(base=0, shoulder=0, elbow=0, wrist=0, hand=0)
 
 
 def example_2():
@@ -202,5 +224,6 @@ def example_2():
     arm.send_angles(hand=90)
     time.sleep(1)
 
-#arm.movable = True
-#example_1()
+arm.movable = True
+example_3()
+
