@@ -1,4 +1,3 @@
-from pynput.mouse import Listener, Button
 import struct
 import serial
 import time
@@ -78,7 +77,7 @@ class RobotArm:
                 self.curr_angles.wrist = wrist
             if (hand != None):
                 self.curr_angles.hand = hand
-            print(self.curr_angles)
+            #print(self.curr_angles)
             self.curr_angles = self.check_angles(self.curr_angles)
             angles = list(self.curr_angles)
             angles = [int(i) for i in angles]

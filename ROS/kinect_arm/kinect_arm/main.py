@@ -1,6 +1,6 @@
 import rclpy
-from ros_bridge import RobotArmRosListener
-from arm import RobotArm
+from kinect_arm.ros_bridge import RobotArmRosListener
+from kinect_arm.arm import RobotArm
 import serial
 
 def main(args=None):
@@ -11,5 +11,6 @@ def main(args=None):
     rclpy.spin(node)
     node.destroy_node()
     rclpy.shutdown()
+
 if __name__ == "__main__":
     main()

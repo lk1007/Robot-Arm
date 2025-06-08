@@ -3,24 +3,16 @@ from launch_ros.actions import Node
 from launch.substitutions import Command, PathJoinSubstitution, LaunchConfiguration
 from launch_ros.substitutions import FindPackageShare
 from launch_ros.parameter_descriptions import ParameterValue
+from ament_index_python.packages import get_package_share_directory
 import os
 
 def generate_launch_description():
-    proj_root_path = os.path.dirname(os.path.abspath(__file__)) + "/../"
+    #proj_root_path = os.path.dirname(os.path.abspath(__file__)) + "/../"
+    proj_root_path = get_package_share_directory('kinect_arm') + '/'
     default_mesh_path = proj_root_path + "meshes"
-    package_name = 'your_package'  # Replace with your actual package name
     rviz_config_file = proj_root_path + 'config/thing.rviz'
     xacro_path = proj_root_path + 'urdf/arm.urdf.xacro'
 
-    #urdf_path = os.path.join(
-    #    FindPackageShare(package=package_name).find(package_name),
-    #    'urdf',
-    #    urdf_file
-    #)
-    #rviz_config_path = os.path.join(
-    #    FindPackageShare(package=package_name).find(package_name),
-    #    rviz_config_file
-    #)
 
 
     urdf_path = ParameterValue(

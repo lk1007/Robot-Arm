@@ -3,7 +3,7 @@
 import rclpy
 from rclpy.node import Node
 from sensor_msgs.msg import JointState
-from arm import RobotArm
+from kinect_arm.arm import RobotArm
 
 class RobotArmRosListener(Node):
     def __init__(self, arm : RobotArm):
@@ -17,7 +17,5 @@ class RobotArmRosListener(Node):
         self.subscription  # prevent unused variable warning
 
     def listener_callback(self, msg: JointState):
-        self.get_logger().info("Received JointState:")
         for name, position in zip(msg.name, msg.position):
             self.arm.set_angle_from_ros(name = name, angle = position)
-            #self.get_logger().info(f"  {name}: {position:.3f}")
