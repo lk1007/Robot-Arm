@@ -1,5 +1,4 @@
 *.FCBak
-*.stl
 .vscode
 venv
 build
