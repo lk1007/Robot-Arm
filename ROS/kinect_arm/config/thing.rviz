@@ -14,13 +14,15 @@ Visualization Manager:
         Value: /robot_description
       Name: RobotModel
       Value: true
+      Visual Enabled: false
+      Collision Enabled: true
     - Class: rviz_default_plugins/TF
       Name: TF
       Value: true
       Show Names: false
       Show Axes: false
   Global Options:
-    Fixed Frame: world_link
+    Fixed Frame: world
   Tools:
     - Class: rviz_default_plugins/MoveCamera
   Value: true

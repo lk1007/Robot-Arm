@@ -1,0 +1,17 @@
+moveit_simple_controller_manager:
+  controller_names:
+    - robot_arm_controller
+    - robot_gripper_controller
+
+  robot_gripper_controller:
+    action_ns: gripper_action
+    type: GripperCommand
+    joint: hand_to_gripper_right
+  robot_arm_controller:
+    action_ns: follow_joint_trajectory
+    type: FollowJointTrajectory
+    default: true
+    joints:
+      - shoulder_joint
+      - elbow_joint
+      - wrist

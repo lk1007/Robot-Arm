@@ -1,0 +1,55 @@
+Panels:
+  - Class: rviz_common/Displays
+    Name: Displays
+  - Class: rviz_common/Views
+    Name: Views
+  - Class: moveit_rviz_plugin/MotionPlanning
+    Name: Motion Planning
+
+Visualization Manager:
+  Displays:
+    - Class: rviz_default_plugins/Grid
+      Name: Grid
+      Value: true
+    - Alpha: 0.8
+    # Class: rviz_default_plugins/RobotModel
+    # Enabled: true
+    # Robot Description: robot_description
+    #- Name: RobotModel
+    #  Value: true
+    #  Alpha: 1.0
+    #  Visual Enabled: false
+    #  Collision Enabled: true
+
+    - Name: TF
+      Class: rviz_default_plugins/TF
+      Enabled: true
+      Show Axes: false
+
+
+    - Name: MotionPlanning
+      Class: moveit_rviz_plugin/MotionPlanning
+      Enabled: true
+      Planning Scene Topic: /planning_scene
+      Robot Description: robot_description
+      Robot State Topic: /display_robot_state
+      Planning Request Topic: /motion_plan_request
+      Trajectory Topic: /display_planned_path
+      Scene Geometry Topic: /monitored_planning_scene
+  Global Options:
+    Fixed Frame: world
+    Frame Rate: 30
+  Tools:
+    - Class: rviz_default_plugins/MoveCamera
+  Views:
+    Current:
+      Class: rviz_default_plugins/Orbit
+      Distance: 1.7
+      Name: Current View
+      Pitch: 0.33
+      Value: Orbit (rviz)
+      Yaw: 5.5
+
+Window Geometry:
+  Height: 900
+  Width: 1440
