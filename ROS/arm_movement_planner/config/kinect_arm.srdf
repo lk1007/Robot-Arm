@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 <robot name="kinect_arm">
 
-  <end_effector name="gripper" parent_link="hand" group="gripper" />
+  <end_effector name="gripper" parent_link="hand" group="gripper" parent_group="arm" />
 
   <!-- Virtual joint connecting robot to world -->
 

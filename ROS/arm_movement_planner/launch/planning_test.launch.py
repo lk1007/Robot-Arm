@@ -39,7 +39,6 @@ def generate_launch_description():
     pkg_share = get_package_share_directory("arm_movement_planner")
     urdf_path = kinect_arm_root_path + "urdf/arm.urdf.xacro"
     mesh_path = kinect_arm_root_path + "meshes"
-    srdf_path = pkg_share + "/srdf/arm.srdf"
     config_path = pkg_share + "/config"
     # Define xacro mappings for the robot description file
 
@@ -63,8 +62,8 @@ def generate_launch_description():
             "kinect_arm", package_name=package_name
         )
         .robot_description(file_path=urdf_path, mappings=urdf_launch_arguments)
-        #.robot_description_semantic(file_path=srdf_path)
-        #.joint_limits()
+        .robot_description_semantic(file_path=f"{config_path}/kinect_arm.srdf")
+        .joint_limits(file_path=f"{config_path}/joint_limits.yaml")
         .trajectory_execution(file_path=f"{config_path}/trajectory.yaml")
         .planning_scene_monitor(
             publish_robot_description=True, publish_robot_description_semantic=True
@@ -94,18 +93,13 @@ def generate_launch_description():
         executable="move_group",
         output="screen",
         parameters=[moveit_config.to_dict(),
+                    moveit_config.joint_limits,
                     trajectory_execution,
                     {"controller_manager":"controller_manager/ControllerManager"},
                     moveit_controllers,
                     ],
     )
 
-    # Get the path to the RViz configuration file
-    rviz_config_arg = DeclareLaunchArgument(
-        "rviz_config",
-        default_value="kinova_moveit_config_demo.rviz",
-        description="RViz configuration file",
-    )
     # Launch RViz
     rviz_node = Node(
         package="rviz2",
@@ -139,15 +133,6 @@ def generate_launch_description():
         parameters=[moveit_config.robot_description],
     )
 
-    # ... all our other code goes here
-
-    
-
-    #ros2_controllers_path = os.path.join(
-    #    get_package_share_directory("kinova_gen3_7dof_robotiq_2f_85_moveit_config"),
-    #    "config",
-    #    "ros2_controllers.yaml",
-    #)
     ros2_control_node = Node(
         package="controller_manager",
         executable="ros2_control_node",
@@ -181,7 +166,6 @@ def generate_launch_description():
     return LaunchDescription(
             [
                 generate_limits,
-                rviz_config_arg,
                 rviz_node,
                 static_tf,
                 robot_state_publisher,

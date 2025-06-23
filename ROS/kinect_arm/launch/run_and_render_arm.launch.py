@@ -24,9 +24,11 @@ def generate_launch_description():
         package="kinect_arm",
         executable="arm_node",
         name="arm_driver",
-        output="screen"
+        output="screen",
+        parameters=[
+            {'test_joint_listener':True},
+        ]
     )
-
     joint_publisher = Node(
         package="joint_state_publisher_gui",
         executable="joint_state_publisher_gui",

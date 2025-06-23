@@ -20,6 +20,13 @@ robot_gripper_controller:
     state_publish_rate: 50.0
     action_monitor_rate: 20.0
 
+joint_state_broadcaster:
+  ros__parameters:
+    joints:
+      #- world_to_base
+      - shoulder_joint
+      - elbow_joint
+      - wrist
 robot_arm_controller:
   ros__parameters:
     joints:

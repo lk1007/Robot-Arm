@@ -4,9 +4,11 @@ moveit_simple_controller_manager:
     - robot_gripper_controller
 
   robot_gripper_controller:
-    action_ns: gripper_action
+    action_ns: gripper_cmd
     type: GripperCommand
-    joint: hand_to_gripper_right
+    default: true
+    joints: 
+      - hand_to_gripper_right
   robot_arm_controller:
     action_ns: follow_joint_trajectory
     type: FollowJointTrajectory
