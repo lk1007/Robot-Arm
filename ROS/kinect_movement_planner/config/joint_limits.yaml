@@ -1,0 +1,36 @@
+joint_limits:
+  elbow_joint:
+    has_acceleration_limits: true
+    has_position_limits: true
+    max_acceleration: 0.2
+    max_position: 1.3962634015954636
+    min_acceleration: 0.2
+    min_position: 0.0
+  hand_to_gripper_right:
+    has_acceleration_limits: true
+    has_position_limits: true
+    max_acceleration: 0.2
+    max_position: 0.003
+    min_acceleration: 0.2
+    min_position: -0.005
+  shoulder_joint:
+    has_acceleration_limits: true
+    has_position_limits: true
+    max_acceleration: 0.2
+    max_position: 1.3962634015954636
+    min_acceleration: 0.2
+    min_position: 0.6981317007977318
+  world_to_base:
+    has_acceleration_limits: true
+    has_position_limits: true
+    max_acceleration: 0.2
+    max_position: 2.9670597283903604
+    min_acceleration: 0.2
+    min_position: 0.3490658503988659
+  wrist:
+    has_acceleration_limits: true
+    has_position_limits: true
+    max_acceleration: 0.2
+    max_position: 2.0943951023931953
+    min_acceleration: 0.2
+    min_position: 1.0471975511965976

@@ -1,8 +1,0 @@
-cython==0.29.36
-numpy==1.26.4
-opencv-python
-PyYAML
-torch
-torchvision
-yolov5
-ultralytics
