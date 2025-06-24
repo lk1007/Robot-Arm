@@ -14,6 +14,7 @@ moveit_simple_controller_manager:
     type: FollowJointTrajectory
     default: true
     joints:
+      - world_to_base
       - shoulder_joint
       - elbow_joint
       - wrist

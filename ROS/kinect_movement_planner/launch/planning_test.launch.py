@@ -58,10 +58,10 @@ def generate_launch_description():
     # Load the robot configuration
     moveit_config = (
         MoveItConfigsBuilder(
-            "arm_driver", package_name=package_name
+            "kinect_movement_planner", package_name=package_name
         )
         .robot_description(file_path=urdf_path, mappings=urdf_launch_arguments)
-        .robot_description_semantic(file_path=f"{config_path}/arm_driver.srdf")
+        .robot_description_semantic(file_path=f"{config_path}/kinect_arm.srdf")
         .joint_limits(file_path=f"{config_path}/joint_limits.yaml")
         .trajectory_execution(file_path=f"{config_path}/trajectory.yaml")
         .planning_scene_monitor(
@@ -104,7 +104,7 @@ def generate_launch_description():
         package="rviz2",
         executable="rviz2",
         output="log",
-        arguments=["-d", config_path + "/arm_driver.rviz"],
+        arguments=["-d", config_path + "/kinect_arm.rviz"],
         parameters=[
             moveit_config.robot_description,
             moveit_config.robot_description_semantic,
@@ -135,7 +135,7 @@ def generate_launch_description():
     ros2_control_node = Node(
         package="controller_manager",
         executable="ros2_control_node",
-        parameters=[f"{config_path}/arm_driver_controllers.yaml"],
+        parameters=[f"{config_path}/kinect_arm_controllers.yaml"],
         remappings=[
         ],
         output="both",

@@ -23,6 +23,7 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
+            'goal_publisher = kinect_movement_planner.goal_publisher:main'
         ],
     },
 )
