@@ -34,10 +34,10 @@ def load_yaml(file_path):
 def generate_launch_description():
     package_name = 'kinect_movement_planner'
     proj_root_path = get_package_share_directory(package_name) + '/'
-    kinect_arm_root_path = get_package_share_directory('kinect_arm') + '/'
+    arm_driver_root_path = get_package_share_directory('arm_driver') + '/'
      # Paths
-    urdf_path = kinect_arm_root_path + "urdf/arm.urdf.xacro"
-    mesh_path = kinect_arm_root_path + "meshes"
+    urdf_path = arm_driver_root_path + "urdf/arm.urdf.xacro"
+    mesh_path = arm_driver_root_path + "meshes"
     config_path = proj_root_path + "/config"
     # Define xacro mappings for the robot description file
 
@@ -58,10 +58,10 @@ def generate_launch_description():
     # Load the robot configuration
     moveit_config = (
         MoveItConfigsBuilder(
-            "kinect_arm", package_name=package_name
+            "arm_driver", package_name=package_name
         )
         .robot_description(file_path=urdf_path, mappings=urdf_launch_arguments)
-        .robot_description_semantic(file_path=f"{config_path}/kinect_arm.srdf")
+        .robot_description_semantic(file_path=f"{config_path}/arm_driver.srdf")
         .joint_limits(file_path=f"{config_path}/joint_limits.yaml")
         .trajectory_execution(file_path=f"{config_path}/trajectory.yaml")
         .planning_scene_monitor(
@@ -104,7 +104,7 @@ def generate_launch_description():
         package="rviz2",
         executable="rviz2",
         output="log",
-        arguments=["-d", config_path + "/kinect_arm.rviz"],
+        arguments=["-d", config_path + "/arm_driver.rviz"],
         parameters=[
             moveit_config.robot_description,
             moveit_config.robot_description_semantic,
@@ -135,7 +135,7 @@ def generate_launch_description():
     ros2_control_node = Node(
         package="controller_manager",
         executable="ros2_control_node",
-        parameters=[f"{config_path}/kinect_arm_controllers.yaml"],
+        parameters=[f"{config_path}/arm_driver_controllers.yaml"],
         remappings=[
         ],
         output="both",

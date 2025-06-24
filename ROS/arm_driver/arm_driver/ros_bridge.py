@@ -3,7 +3,7 @@
 import rclpy
 from rclpy.node import Node
 from sensor_msgs.msg import JointState
-from kinect_arm.arm import RobotArm
+from arm_driver.arm import RobotArm
 from control_msgs.msg import JointTrajectoryControllerState
 
 

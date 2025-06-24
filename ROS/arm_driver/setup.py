@@ -1,7 +1,7 @@
 from setuptools import find_packages, setup
 from glob import glob
 
-package_name = 'kinect_arm'
+package_name = 'arm_driver'
 
 setup(
     name=package_name,
@@ -25,7 +25,7 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'arm_node = kinect_arm.main:main'
+            'arm_node = arm_driver.main:main'
         ],
     },
 )

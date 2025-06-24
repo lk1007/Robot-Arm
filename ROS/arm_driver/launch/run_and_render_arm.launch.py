@@ -8,7 +8,7 @@ import os
 
 def generate_launch_description():
     #proj_root_path = os.path.dirname(os.path.abspath(__file__)) + "/../"
-    proj_root_path = get_package_share_directory('kinect_arm') + '/'
+    proj_root_path = get_package_share_directory('arm_driver') + '/'
     default_mesh_path = proj_root_path + "meshes"
     rviz_config_file = proj_root_path + 'config/thing.rviz'
     xacro_path = proj_root_path + 'urdf/arm.urdf.xacro'
@@ -21,7 +21,7 @@ def generate_launch_description():
     )
 
     arm_driver = Node(
-        package="kinect_arm",
+        package="arm_driver",
         executable="arm_node",
         name="arm_driver",
         output="screen",

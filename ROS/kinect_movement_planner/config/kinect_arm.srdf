@@ -1,5 +1,5 @@
 <?xml version="1.0" ?>
-<robot name="kinect_arm">
+<robot name="arm_driver">
 
   <end_effector name="gripper" parent_link="hand" group="gripper" parent_group="arm" />
 

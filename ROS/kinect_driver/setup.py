@@ -1,7 +1,7 @@
 from setuptools import find_packages, setup
 from glob import glob
 
-package_name = 'kinect_ros2'
+package_name = 'kinect_driver'
 
 setup(
     name=package_name,
@@ -23,7 +23,7 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'kinect_node = kinect_ros2.main:main'
+            'kinect_node = kinect_driver.main:main'
         ],
     },
 )

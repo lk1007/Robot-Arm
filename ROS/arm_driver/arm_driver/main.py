@@ -1,11 +1,11 @@
 import rclpy
-import kinect_arm.ros_bridge as ros_bridge
-from kinect_arm.arm import RobotArm
+import arm_driver.ros_bridge as ros_bridge
+from arm_driver.arm import RobotArm
 import serial
 
 def main(args=None):
     rclpy.init(args=args)
-    ser = serial.Serial(port='/dev/ttyACM1',baudrate=115200)
+    ser = serial.Serial(port='/dev/ttyACM0',baudrate=115200)
     arm = RobotArm(serial_port=ser)
     node = ros_bridge.RobotArmRosListener(arm=arm)
     rclpy.spin(node)

@@ -11,7 +11,7 @@ pi_offset_x_in = 4*12
 
 def generate_launch_description():
     #proj_root_path = os.path.dirname(os.path.abspath(__file__)) + "/../"
-    proj_root_path = get_package_share_directory('kinect_ros2') + '/'
+    proj_root_path = get_package_share_directory('kinect_driver') + '/'
     rviz_config_file = proj_root_path + 'config/thing.rviz'
 
     rviz_node = Node(
@@ -23,7 +23,7 @@ def generate_launch_description():
     )
 
     kinect_node = Node(
-        package='kinect_ros2',
+        package='kinect_driver',
         executable='kinect_node',
         name='kinect_node',
         output='screen',
