@@ -6,10 +6,13 @@
     <xacro:property name="upper_arm_length" value="0.091"/>
     <xacro:property name="forearm_length"   value="0.08"/>
     <xacro:property name="hand_length"      value="0.013"/>
-    <xacro:property name="upper_arm_diameter" value="0.047"/>
-    <xacro:property name="forearm_diameter"   value="0.045"/>
+    <xacro:property name="upper_arm_width" value="0.068"/>
+    <xacro:property name="upper_arm_depth" value="0.038"/>
+    <xacro:property name="forearm_width"   value="0.063"/>
+    <xacro:property name="forearm_depth"   value="0.030"/>
     <xacro:property name="midforearm_length"   value="0.035"/>
-    <xacro:property name="hand_diameter"      value="0.0356"/>
+    <xacro:property name="midforearm_width"   value="${upper_arm_width}"/>
+    <xacro:property name="midforearm_depth"   value="0.035"/>
     <xacro:property name="hand_diameter"      value="0.0356"/>
     <xacro:property name="base_length"        value="0.033"/>
     <xacro:property name="base_diameter"      value="0.09"/>
@@ -69,14 +72,14 @@
       <child link="gripper_right"/>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <axis xyz="0 1 0"/>
-      <limit effort="30" velocity="${joint_velocity}" lower="-.004" upper=".005"/>
+      <limit effort="30" velocity="${joint_velocity}" lower="-0.005" upper=".002"/>
     </joint>
     <joint name="hand_to_gripper_left" type="prismatic">
       <parent link="hand"/>
       <child link="gripper_left"/>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <axis xyz="0 1 0"/>
-      <limit effort="30" velocity="${joint_velocity}" lower="-.005" upper=".003"/>
+      <limit effort="30" velocity="${joint_velocity}" lower="0" upper=".003"/>
       <mimic joint="hand_to_gripper_right" multiplier="-1.0" offset="0.0"/>
     </joint>
 
@@ -84,7 +87,6 @@
       <visual>
         <origin xyz="0 0 ${base_length}" rpy="0 0 0"/> <!-- Center the geometry -->
         <geometry>
-          <!--<cylinder length="${base_length}" radius="${base_diameter/2}"/>-->
             <mesh filename="file:$(arg mesh_path)/base.stl" scale=".001 .001 .001"/>
         </geometry>
         <material name="blue"/>
@@ -109,7 +111,7 @@
       <collision>
         <origin xyz="0 0 ${upper_arm_length/2}" rpy="0 0 0"/> <!-- Same transform as visual -->
         <geometry>
-          <cylinder length="${upper_arm_length}" radius="${upper_arm_diameter/2}"/>
+          <box size="${upper_arm_depth} ${upper_arm_width} ${upper_arm_length}"/>
         </geometry>
       </collision>
     </link>
@@ -123,9 +125,9 @@
         <material name="red"/>
       </visual>
       <collision>
-        <origin xyz="-${midforearm_length/2} 0 0" rpy="0 ${pi/2} 0"/>
+        <origin xyz="-${midforearm_length/2 - .002} 0 0" rpy="0 ${pi/2} 0"/>
         <geometry>
-          <cylinder length="${midforearm_length}" radius=".01"/>
+          <box size="${midforearm_depth} ${midforearm_width} ${midforearm_length + upper_arm_depth/2 + forearm_depth/2}"/>
         </geometry>
       </collision>
     </link>
@@ -140,7 +142,7 @@
       <collision>
         <origin xyz="0 0 ${forearm_length/2}" rpy="0 0 0"/>
         <geometry>
-          <cylinder length="${forearm_length}" radius="${forearm_diameter/2}"/>
+          <box size="${forearm_depth} ${forearm_width} ${forearm_length}"/>
         </geometry>
         <material name="blue"/>
       </collision>
@@ -156,9 +158,9 @@
         <material name="yellow"/>
       </visual>
       <collision>
-        <origin xyz="-.002 0 0" rpy="0 0 0"/>
+        <origin xyz="-.002 0 0" rpy="${pi/2} 0 0"/>
         <geometry>
-          <cylinder length=".04" radius=".015"/>
+          <cylinder length=".063" radius=".015"/>
         </geometry>
         <material name="yellow"/>
       </collision>
