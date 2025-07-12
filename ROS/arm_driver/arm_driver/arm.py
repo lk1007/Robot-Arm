@@ -94,15 +94,19 @@ class RobotArm:
         self.movable = enable
     
     def set_angle_from_ros(self, name : str, angle : float):
-        angle = self.angle_from_ros(angle)
-        if(name == "world_to_base"):
-            self.send_angles(base=angle)
-        elif(name == "shoulder_joint"):
-            self.send_angles(shoulder=angle)
-        elif(name == "elbow_joint"):
-            self.send_angles(elbow=angle)
-        elif(name == "wrist"):
-            self.send_angles(wrist=angle)
+        if(name == "hand_to_gripper_right"):
+            angle = (angle + .005)*90/.007
+            self.send_angles(hand=angle)
+        else:
+            angle = self.angle_from_ros(angle)
+            if(name == "world_to_base"):
+                self.send_angles(base=angle)
+            elif(name == "shoulder_joint"):
+                self.send_angles(shoulder=angle)
+            elif(name == "elbow_joint"):
+                self.send_angles(elbow=angle)
+            elif(name == "wrist"):
+                self.send_angles(wrist=angle)
 
 if __name__ == "__main__":
     arm = RobotArm(serial_port=serial.Serial(port='/dev/ttyACM0',baudrate=115200))

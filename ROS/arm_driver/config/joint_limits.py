@@ -3,10 +3,10 @@ import yaml
 import os
 
 joint_limits = {
-    'world_to_base': {
+    'elbow_joint': {
         'has_position_limits': True,
-        'min_position': math.radians(20),   # -π/2
-        'max_position': math.radians(170),    # π/2
+        'min_position': math.radians(0),
+        'max_position': math.radians(80),
         'has_acceleration_limits': True,
         'max_acceleration': .2,
         'min_acceleration': .2,
@@ -19,10 +19,10 @@ joint_limits = {
         'max_acceleration': .2,
         'min_acceleration': .2,
     },
-    'elbow_joint': {
+    'world_to_base': {
         'has_position_limits': True,
-        'min_position': math.radians(0),
-        'max_position': math.radians(80),
+        'min_position': math.radians(20),   # -π/2
+        'max_position': math.radians(170),    # π/2
         'has_acceleration_limits': True,
         'max_acceleration': .2,
         'min_acceleration': .2,
@@ -38,5 +38,7 @@ joint_limits = {
 }
 
 cur_dir = os.path.dirname(os.path.abspath(__file__))
-with open(cur_dir +"/joint_limits.yaml", "w+") as f:
+yaml_path = cur_dir +"/joint_limits.yaml"
+with open(yaml_path, "w+") as f:
     yaml.dump({"joint_limits": joint_limits}, f, default_flow_style=False)
+print(f"Generated {yaml_path}", flush=True)

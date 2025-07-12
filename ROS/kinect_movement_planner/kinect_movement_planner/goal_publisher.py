@@ -59,43 +59,43 @@ def main():
     logger = get_logger("moveit_py.pose_goal")
 
     # instantiate MoveItPy instance and get planning component
-    panda = MoveItPy(node_name="moveit_py")
-    panda_arm = panda.get_planning_component("panda_arm")
+    panda = MoveItPy(node_name="thing")
+    panda_arm = panda.get_planning_component("kinect_movement_planner")
     logger.info("MoveItPy instance created")
 
-    ###########################################################################
-    # Plan 1 - set states with predefined string
-    ###########################################################################
+    ############################################################################
+    ## Plan 1 - set states with predefined string
+    ############################################################################
 
-    # set plan start state using predefined state
-    panda_arm.set_start_state(configuration_name="ready")
+    ## set plan start state using predefined state
+    #panda_arm.set_start_state(configuration_name="ready")
 
-    # set pose goal using predefined state
-    panda_arm.set_goal_state(configuration_name="extended")
+    ## set pose goal using predefined state
+    #panda_arm.set_goal_state(configuration_name="extended")
 
-    # plan to goal
-    plan_and_execute(panda, panda_arm, logger, sleep_time=3.0)
+    ## plan to goal
+    #plan_and_execute(panda, panda_arm, logger, sleep_time=3.0)
 
-    ###########################################################################
-    # Plan 2 - set goal state with RobotState object
-    ###########################################################################
+    ############################################################################
+    ## Plan 2 - set goal state with RobotState object
+    ############################################################################
 
-    # instantiate a RobotState instance using the current robot model
+    ## instantiate a RobotState instance using the current robot model
     robot_model = panda.get_robot_model()
     robot_state = RobotState(robot_model)
 
-    # randomize the robot state
-    robot_state.set_to_random_positions()
+    ## randomize the robot state
+    #robot_state.set_to_random_positions()
 
-    # set plan start state to current state
-    panda_arm.set_start_state_to_current_state()
+    ## set plan start state to current state
+    #panda_arm.set_start_state_to_current_state()
 
-    # set goal state to the initialized robot state
-    logger.info("Set goal state to the initialized robot state")
-    panda_arm.set_goal_state(robot_state=robot_state)
+    ## set goal state to the initialized robot state
+    #logger.info("Set goal state to the initialized robot state")
+    #panda_arm.set_goal_state(robot_state=robot_state)
 
-    # plan to goal
-    plan_and_execute(panda, panda_arm, logger, sleep_time=3.0)
+    ## plan to goal
+    #plan_and_execute(panda, panda_arm, logger, sleep_time=3.0)
 
     ###########################################################################
     # Plan 3 - set goal state with PoseStamped message

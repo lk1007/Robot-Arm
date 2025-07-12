@@ -1,2 +1,5 @@
 tutorials
 .venv
+build
+log
+install

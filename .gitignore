@@ -1,8 +1,6 @@
 *.FCBak
 .vscode
 venv
-build
 install
-log
 __pycache__
 tutorials
