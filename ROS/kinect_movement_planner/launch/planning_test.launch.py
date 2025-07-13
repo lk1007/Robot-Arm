@@ -62,7 +62,7 @@ def generate_launch_description():
         )
         .robot_description(file_path=urdf_path, mappings=urdf_launch_arguments)
         .robot_description_semantic(file_path=f"{config_path}/kinect_arm.srdf")
-        .joint_limits(file_path=f"{config_path}/joint_limits.yaml")
+        #.joint_limits(file_path=f"{config_path}/joint_limits.yaml")
         .trajectory_execution(file_path=f"{config_path}/trajectory.yaml")
         .planning_scene_monitor(
             publish_robot_description=True, publish_robot_description_semantic=True
@@ -92,7 +92,7 @@ def generate_launch_description():
         executable="move_group",
         output="screen",
         parameters=[moveit_config.to_dict(),
-                    moveit_config.joint_limits,
+                    #moveit_config.joint_limits,
                     trajectory_execution,
                     {"controller_manager":"controller_manager/ControllerManager"},
                     moveit_controllers,
@@ -110,7 +110,7 @@ def generate_launch_description():
             moveit_config.robot_description_semantic,
             moveit_config.robot_description_kinematics,
             moveit_config.planning_pipelines,
-            moveit_config.joint_limits,
+            #moveit_config.joint_limits,
             moveit_config.trajectory_execution
         ],
     )

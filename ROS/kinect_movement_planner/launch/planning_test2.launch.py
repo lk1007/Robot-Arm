@@ -67,9 +67,9 @@ def generate_launch_description():
             publish_robot_description=True, publish_robot_description_semantic=True
         ) \
         .planning_pipelines(
+            default_planning_pipeline = "ompl",
             pipelines=["ompl"]
-        ) \
-        .to_moveit_configs()
+        ).to_moveit_configs()
 
 
     trajectory_execution = {
@@ -90,7 +90,6 @@ def generate_launch_description():
         executable="move_group",
         output="screen",
         parameters=[moveit_config.to_dict(),
-                    moveit_config.joint_limits,
                     trajectory_execution,
                     {"controller_manager":"controller_manager/ControllerManager"},
                     moveit_controllers,
@@ -160,7 +159,7 @@ def generate_launch_description():
         arguments=["robot_gripper_controller", "-c", "/controller_manager"],
     )
 
-    print("AAAAAAAAAAAAAAAAAAAA: ",moveit_config.to_dict().keys())
+    print("AAAAAAAAAAAAAAAAAAAA: ",moveit_config.to_dict()['planning_pipelines'])
     goalPublisher = Node(
         package=package_name,
         executable="goalPublisher",
@@ -168,9 +167,20 @@ def generate_launch_description():
         output="screen",
         parameters=[
             moveit_config.to_dict(),
-            moveit_config.planning_pipelines
-        ]
+            #moveit_config.robot_description,
+            #moveit_config.robot_description_semantic,
+            #moveit_config.robot_description_kinematics,
+            #moveit_config.trajectory_execution,
+            #{'planning_pipelines': ["ompl"],
+            #        'ompl': { 
+            #                'planning_plugins': ["ompl_interface/OMPLPlanner"],
+            #                'request_adapters': 'default_planner_request_adapters/AddTimeParameterization',
+            #                'start_state_max_bounds_error': 0.1
+            #        }
+            #    }
+            ]
     )
+    thing = {"thing3": {"thing": 1, "thing2": 2}}
 
     return LaunchDescription(
             [

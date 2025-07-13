@@ -16,7 +16,7 @@
     <xacro:property name="hand_diameter"      value="0.0356"/>
     <xacro:property name="base_length"        value="0.033"/>
     <xacro:property name="base_diameter"      value="0.09"/>
-    <xacro:property name="shoulder_origin_angle" value="${10+40}"/>
+    <xacro:property name="shoulder_origin_angle" value="${120}"/>
     <xacro:property name="joint_velocity" value="${pi/2.37}"/>
 
     <!-- Materials -->

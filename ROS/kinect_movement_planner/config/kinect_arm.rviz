@@ -226,6 +226,7 @@ Visualization Manager:
         Show Weight Limit: false
         TextHeight: 0.07999999821186066
       Planning Request:
+        Default_Start_State: "Home"
         Colliding Link Color: 255; 0; 0
         Goal State Alpha: 1
         Goal State Color: 250; 128; 0

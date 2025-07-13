@@ -17,6 +17,13 @@
     <link name="gripper_right"/>
   </group>
 
+  <group_state name="Home" group="arm">
+    <joint name="world_to_base" value="1.5"/>
+    <joint name="shoulder_joint" value="1.5"/>
+    <joint name="elbow_joint" value=".5"/>
+    <joint name="wrist" value="1.5"/>
+  </group_state>
+
   <!-- Optionally disable collisions between adjacent links to improve planning speed -->
   <disable_collisions link1="gripper_right" link2="forearm" reason="Adjacent" />
   <disable_collisions link1="gripper_left" link2="forearm" reason="Adjacent" />
