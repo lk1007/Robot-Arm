@@ -5,9 +5,7 @@ import serial
 
 def main(args=None):
     rclpy.init(args=args)
-    ser = serial.Serial(port='/dev/ttyACM0',baudrate=115200)
-    arm = RobotArm(serial_port=ser)
-    node = ros_bridge.RobotArmRosListener(arm=arm)
+    node = ros_bridge.RobotArmRosListener()
     rclpy.spin(node)
     node.destroy_node()
     rclpy.shutdown()

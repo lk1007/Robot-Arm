@@ -26,8 +26,8 @@ class angles_t:
         return "base: " + str(self.base) + "\nshoulder: " + str(self.shoulder) + "\nelbow: " + str(self.elbow) + "\nwrist: " + str(self.wrist) + "\nhand: " + str(self.hand)
 
 
-default_min_angles = angles_t(base=20, shoulder=40, elbow=0, wrist=60, hand=0)
-default_max_angles = angles_t(base=170, shoulder=100, elbow=80, wrist=120, hand=50)
+default_min_angles = angles_t(base=0, shoulder=0, elbow=0, wrist=0, hand=0)
+default_max_angles = angles_t(base=180, shoulder=180, elbow=180, wrist=180, hand=180)
 
 start_angles = angles_t(base=50, shoulder=70, elbow=50, wrist=50, hand=90)
 
@@ -78,7 +78,7 @@ class RobotArm:
             if (hand != None):
                 self.curr_angles.hand = hand
             #print(self.curr_angles)
-            self.curr_angles = self.check_angles(self.curr_angles)
+            #self.curr_angles = self.check_angles(self.curr_angles)
             angles = list(self.curr_angles)
             angles = [int(i) for i in angles]
             for angle in angles:
@@ -94,6 +94,7 @@ class RobotArm:
         self.movable = enable
     
     def set_angle_from_ros(self, name : str, angle : float):
+        print(angle,flush=True)
         if(name == "hand_to_gripper_right"):
             angle = (angle + .005)*90/.007
             self.send_angles(hand=angle)
@@ -102,6 +103,7 @@ class RobotArm:
             if(name == "world_to_base"):
                 self.send_angles(base=angle)
             elif(name == "shoulder_joint"):
+                print(angle,flush=True)
                 self.send_angles(shoulder=angle)
             elif(name == "elbow_joint"):
                 self.send_angles(elbow=angle)

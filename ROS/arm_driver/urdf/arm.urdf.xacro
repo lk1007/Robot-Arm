@@ -49,7 +49,7 @@
       <child link="upper_arm"/>
       <origin xyz="0 0 ${base_length}" rpy="0 -${shoulder_origin_angle*pi/180} 0"/>
       <axis xyz="0 1 0"/>
-      <limit effort="30" velocity="${joint_velocity}" lower="${40*pi/180}" upper="${80*pi/180}"/>
+      <limit effort="30" velocity="${joint_velocity}" lower="${70*pi/180}" upper="${150*pi/180}"/>
     </joint>
 
     <joint name="elbow_joint" type="revolute">

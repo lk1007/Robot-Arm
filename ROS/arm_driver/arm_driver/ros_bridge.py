@@ -5,13 +5,16 @@ from rclpy.node import Node
 from sensor_msgs.msg import JointState
 from arm_driver.arm import RobotArm
 from control_msgs.msg import JointTrajectoryControllerState
+import serial
 
 
 class RobotArmRosListener(Node):
-    def __init__(self, arm : RobotArm):
+    def __init__(self):
         super().__init__('joint_state_listener')
         self.declare_parameter('test_joint_listener', False)
-        self.arm = arm
+        ser = serial.Serial(port='/dev/ttyACM0',baudrate=115200)
+        self.arm = RobotArm(serial_port=ser)
+
         if(self.get_parameter('test_joint_listener').get_parameter_value().bool_value):
             self.subscription = self.create_subscription(
                 JointState,
