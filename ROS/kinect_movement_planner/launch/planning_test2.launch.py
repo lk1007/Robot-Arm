@@ -54,6 +54,37 @@ def generate_launch_description():
         #"gripper": "robotiq_2f_85",
         #"dof": "7",
     }
+    # Planning Functionality
+    planning_pipelines_config = {
+        "planning_scene_monitor": {
+            "name": "planning_scene_monitor",
+            "robot_description": "robot_description",
+            "joint_state_topic": "/joint_states",
+            "attached_collision_object_topic": "/moveit_cpp/planning_scene_monitor",
+            "publish_planning_scene_topic": "/moveit_cpp/publish_planning_scene",
+            "monitored_planning_scene_topic": "/moveit_cpp/monitored_planning_scene",
+            "wait_for_initial_state_timeout": 10.0,
+        },
+        "planning_pipelines": {
+            "pipeline_names": ["ompl"]
+        },
+        "plan_request_params": {
+            "planning_attempts": 1,
+            "planning_pipeline": "ompl",
+            "max_velocity_scaling_factor": 0.2,
+            "max_acceleration_scaling_factor": 0.2
+        },
+        "ompl": {
+            "planning_plugins": ["ompl_interface/OMPLPlanner"],
+            "request_adapters": ["default_planning_request_adapters/ResolveConstraintFrames",
+                            "default_planning_request_adapters/ValidateWorkspaceBounds",
+                            "default_planning_request_adapters/CheckStartStateCollision"],
+            "response_adapters": ["default_planning_response_adapters/AddTimeOptimalParameterization",
+                             "default_planning_response_adapters/ValidateSolution",
+                             "default_planning_response_adapters/DisplayMotionPath"],
+            "start_state_max_bounds_error": 0.1
+        }
+    }
 
 
     # Load the robot configuration
@@ -89,11 +120,16 @@ def generate_launch_description():
         package="moveit_ros_move_group",
         executable="move_group",
         output="screen",
-        parameters=[moveit_config.to_dict(),
+        parameters=[#moveit_config.to_dict(),
+                    moveit_config.robot_description,
+                    moveit_config.robot_description_semantic,
+                    moveit_config.robot_description_kinematics,
+                    planning_pipelines_config,
+                    moveit_config.joint_limits,
                     trajectory_execution,
                     {"controller_manager":"controller_manager/ControllerManager"},
                     moveit_controllers,
-                    ],
+                    ]
     )
 
     # Launch RViz
@@ -165,22 +201,16 @@ def generate_launch_description():
         executable="goalPublisher",
         name="goalPublisher",
         output="screen",
+        #arguments=['--ros-args', '--log-level', 'DEBUG'],
         parameters=[
-            moveit_config.to_dict(),
-            #moveit_config.robot_description,
-            #moveit_config.robot_description_semantic,
-            #moveit_config.robot_description_kinematics,
-            #moveit_config.trajectory_execution,
-            #{'planning_pipelines': ["ompl"],
-            #        'ompl': { 
-            #                'planning_plugins': ["ompl_interface/OMPLPlanner"],
-            #                'request_adapters': 'default_planner_request_adapters/AddTimeParameterization',
-            #                'start_state_max_bounds_error': 0.1
-            #        }
-            #    }
+            planning_pipelines_config,
+            moveit_config.robot_description,
+            moveit_config.robot_description_semantic,
+            moveit_config.robot_description_kinematics,
+            moveit_config.trajectory_execution,
+            moveit_config.joint_limits
             ]
     )
-    thing = {"thing3": {"thing": 1, "thing2": 2}}
 
     return LaunchDescription(
             [
@@ -193,6 +223,6 @@ def generate_launch_description():
                 joint_state_broadcaster_spawner,
                 arm_controller_spawner,
                 hand_controller_spawner,
-                goalPublisher
+                #goalPublisher
             ]
         )
