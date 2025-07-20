@@ -11,8 +11,7 @@ void arm_set_angles(arm_t *arm, float* angles, int delay_ms)
         done |= joint_step_angle(arm->elbow, angles[2]);
         done |= joint_step_angle(arm->wrist, angles[3]);
         done |= joint_step_angle(arm->hand, angles[4]);
-        if(!done)
-            HAL_Delay(delay_ms);
+        HAL_Delay(delay_ms);
     }
 }
 

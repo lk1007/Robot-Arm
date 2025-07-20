@@ -1,7 +1,7 @@
 #include "joint.h"
 #include <stdbool.h>
 
-#define joint_delta 2
+#define joint_delta .1
 void joint_init(joint_t* joint){
   HAL_TIM_PWM_Start(joint->htimer, joint->channel);
   joint_set_angle(joint,0);
@@ -23,11 +23,11 @@ bool joint_step_angle(joint_t* joint, float target_angle){
         target_angle = joint->min_angle;
     if(target_angle > joint->max_angle)
         target_angle = joint->max_angle;
-    float difference = target_angle > joint->current_angle;
+    float difference = target_angle - joint->current_angle;
     if((difference > 0 ? difference : -difference) < joint_delta){
         return true;
     }
-    direction_t direction = difference > 0 ? 1 : -1;
+    int direction = difference > 0 ? 1 : -1;
     float new_angle = joint->current_angle + direction;
     if(new_angle >= target_angle && direction > 0){
         new_angle = target_angle;
